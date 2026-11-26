@@ -24,6 +24,12 @@ jobs:
           pip3 install --user --upgrade buildozer
           echo "$HOME/.local/bin" >> $GITHUB_PATH
 
+      - name: Accept Android SDK licenses
+        run: |
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -name sdkmanager -type f | head -n 1)"
+          yes | "$SDKMANAGER" --licenses
+          "$SDKMANAGER" "build-tools;37.0.0" "platform-tools"
+
       - name: Build Android APK
         run: buildozer android debug
 
